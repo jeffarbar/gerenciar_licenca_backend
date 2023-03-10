@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import javax.imageio.ImageIO;
 import org.apache.commons.io.IOUtils;
@@ -40,6 +41,7 @@ import br.com.telefonica.gd.model.ProjetoDocumentoModel;
 import br.com.telefonica.gd.model.ProjetoModel;
 import br.com.telefonica.gd.model.ProjetoTipoDocumentacaoModel;
 import br.com.telefonica.gd.repository.ProjetoRepository;
+import br.com.telefonica.gd.request.DocumentoRequest;
 import br.com.telefonica.gd.request.NotificacaoRequest;
 import br.com.telefonica.gd.response.Response;
 import br.com.telefonica.gd.util.DataUtil;
@@ -71,6 +73,56 @@ public class DocumentoService {
     
 	private static int COMPACTACAO_IMAGEM = 10;
     
+	
+	public Response incluirDoc( String idProjeto, List<DocumentoRequest> documentos ) throws Exception {
+		
+		try {
+			
+			Optional<ProjetoModel> projetoModel = projetoRepository.findById(idProjeto);
+    		
+    		if( projetoModel.isPresent() ) {
+    			
+    			ProjetoModel _projetoModel = projetoModel.get();
+    			
+    			LocalDateTime data = dataUtil.dataAtual();	
+
+				List<ProjetoDocumentoModel> _listaDocModel = _projetoModel.getProjetoTipoDocumentacao().getDocumentos();
+				
+				List<ProjetoDocumentoModel> listDoc = new ArrayList<>();
+				
+				documentos.stream().forEach( d->{
+					
+					ProjetoDocumentoModel doc = new ProjetoDocumentoModel();
+					
+					doc.setId(UUID.randomUUID().toString());
+					doc.setNome(d.getNome());
+					doc.setDataCadastro(data);
+					doc.setStatusArquito( SituacaoArquivoEnum.PENDENTE.name() );
+					
+					listDoc.add( doc );
+					
+				});
+				
+				if( _listaDocModel == null ) {
+					_listaDocModel = new ArrayList<>();
+				}
+				_listaDocModel.addAll(listDoc);    	
+			
+				_projetoModel.getProjetoTipoDocumentacao().setDocumentos(_listaDocModel);
+				
+				projetoRepository.save(_projetoModel);
+    				
+    			return new Response();
+    		}
+			
+    		throw new NotFoundException();
+    		
+		}catch (Exception e) {
+			logger.error( String.format("Erro ao deletar arquivo %s", e) );
+			throw e;
+    	}
+	}
+	
     public Response notificacao(NotificacaoRequest notificacaoRequest, String idProjeto, String idDocumento, String requestToken) throws Exception{
     	
     	try {

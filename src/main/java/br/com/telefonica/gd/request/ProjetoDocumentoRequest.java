@@ -25,15 +25,15 @@ public class ProjetoDocumentoRequest{
 	
 	private String idArquivoOriginal;
 	
-	private String _dataUpload;
+	private String dataUpload;
 	
 	private String nomeUpload;
 	
-	private String _dataAprovacao;
+	private String dataAprovacao;
 	
 	private String nomeAprovacao;
 	
-	private String _dataRejeicao;
+	private String dataRejeicao;
 	
 	private String nomeRejeicao;
 	
@@ -87,12 +87,12 @@ public class ProjetoDocumentoRequest{
 		this.idArquivoOriginal = idArquivoOriginal;
 	}
 
-	public String _getDataUpload() {
-		return _dataUpload;
+	public String getDataUpload() {
+		return dataUpload;
 	}
 
-	public void _setDataUpload(String dataUpload) {
-		this._dataUpload = dataUpload;
+	public void setDataUpload(String dataUpload) {
+		this.dataUpload = dataUpload;
 	}
 
 	public String getNomeUpload() {
@@ -103,12 +103,12 @@ public class ProjetoDocumentoRequest{
 		this.nomeUpload = nomeUpload;
 	}
 
-	public String _getDataAprovacao() {
-		return _dataAprovacao;
+	public String getDataAprovacao() {
+		return dataAprovacao;
 	}
 
-	public void _setDataAprovacao(String dataAprovacao) {
-		this._dataAprovacao = dataAprovacao;
+	public void setDataAprovacao(String dataAprovacao) {
+		this.dataAprovacao = dataAprovacao;
 	}
 
 	public String getNomeAprovacao() {
@@ -119,12 +119,12 @@ public class ProjetoDocumentoRequest{
 		this.nomeAprovacao = nomeAprovacao;
 	}
 
-	public String _getDataRejeicao() {
-		return _dataRejeicao;
+	public String getDataRejeicao() {
+		return dataRejeicao;
 	}
 
-	public void _setDataRejeicao(String dataRejeicao) {
-		this._dataRejeicao = dataRejeicao;
+	public void setDataRejeicao(String dataRejeicao) {
+		this.dataRejeicao = dataRejeicao;
 	}
 
 	public String getNomeRejeicao() {

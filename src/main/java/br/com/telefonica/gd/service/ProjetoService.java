@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
@@ -49,13 +50,11 @@ public class ProjetoService {
 	
 	@Autowired
 	private ProjetoRepository projetoRepository;
-	
-	
+		
     @Autowired
     private DataUtil dataUtil;
     
 
-	
 	public Response save(ProjetoRequest projetoRequest) throws Exception{
 		
 		try {
@@ -118,20 +117,14 @@ public class ProjetoService {
 			
 			if( projetoModel.isPresent() ) {
 				
-				ProjetoModel _projetoModel = null;
-				
 				// caso tenho mais de uma licença na nova alteração criar um projeto novo
 				List<ProjetoTipoDocumentacaoRequest> listaTipoDocumentacaoRequest = projetoRequest.getTipoDocumentacoes();
-				boolean primeiraExecucao = true;
 				
-				for(ProjetoTipoDocumentacaoRequest tipoDocumentacaoRequest : listaTipoDocumentacaoRequest ) {
+				if( listaTipoDocumentacaoRequest != null && !listaTipoDocumentacaoRequest.isEmpty() ) {
 				
-					if( primeiraExecucao ) {
-						_projetoModel = projetoModel.get();
-					}else {
-						_projetoModel = new ProjetoModel();
-						_projetoModel.setDataCadastro(dataUtil.dataAtual());	
-					}
+					ProjetoTipoDocumentacaoRequest tipoDocumentacaoRequest = listaTipoDocumentacaoRequest.get(0);
+						
+					ProjetoModel _projetoModel = projetoModel.get();
 					
 					_projetoModel.setNome(projetoRequest.getNome());
 					_projetoModel.setCep( projetoRequest.getCep());
@@ -139,67 +132,24 @@ public class ProjetoService {
 					_projetoModel.setEstado(projetoRequest.getEstado());
 					_projetoModel.setEndereco(projetoRequest.getEndereco());
 					
+					ProjetoClienteModel  _clienteProjetoModel = modelMapper.map(projetoRequest.getCliente(), ProjetoClienteModel.class);
+					_projetoModel.setCliente(_clienteProjetoModel);_projetoModel.setCliente(_clienteProjetoModel);
 					
-					ProjetoClienteModel _clienteProjetoModel = new ProjetoClienteModel();
-					_clienteProjetoModel.setId(projetoRequest.getCliente().getId());
-					_clienteProjetoModel.setRazaoSocial(projetoRequest.getCliente().getRazaoSocial());
-					_clienteProjetoModel.setCidade(projetoRequest.getCliente().getCidade());
-					_clienteProjetoModel.setEstado(projetoRequest.getCliente().getEstado());
-					_clienteProjetoModel.setSegmento(projetoRequest.getCliente().getSegmento());
-					
-					_projetoModel.setCliente(_clienteProjetoModel);
-					
-				
-					ProjetoClienteSharingModel _clienteSharingProjetoModel = new ProjetoClienteSharingModel();
-					_clienteSharingProjetoModel.setId(projetoRequest.getClienteSharing().getId());
-					_clienteSharingProjetoModel.setRazaoSocial(projetoRequest.getClienteSharing().getRazaoSocial());
-					_clienteSharingProjetoModel.setCidade(projetoRequest.getClienteSharing().getCidade());
-					_clienteSharingProjetoModel.setEstado(projetoRequest.getClienteSharing().getEstado());
-					_clienteSharingProjetoModel.setSegmento(projetoRequest.getClienteSharing().getSegmento());
-					
-					_projetoModel.setClienteSharing(_clienteSharingProjetoModel);
-					
-
-					ProjetoTipoDocumentacaoModel _tipoDocumentacao = modelMapper.map(tipoDocumentacaoRequest, ProjetoTipoDocumentacaoModel.class);
-						
-					List<ProjetoDocumentoRequest> listaDocRequest = tipoDocumentacaoRequest.getDocumentos();
-						
-					List<ProjetoDocumentoModel> _listaDocumento = new ArrayList<>();
-						
-					if( listaDocRequest != null && !listaDocRequest.isEmpty() ) {
-							
-						listaDocRequest
-							.stream()
-							.forEach( docRequest ->{
-								ProjetoDocumentoModel doc = modelMapper.map(docRequest, ProjetoDocumentoModel.class);
-										
-								List<NotificacaoRequest> listaNotificacaoRequest = docRequest.getNotificacoes();
-								
-								List<NotificacaoModel> _listaNotificacaoModel = new ArrayList<>();
-								
-								if( listaNotificacaoRequest != null && !listaNotificacaoRequest.isEmpty() ) {
-									
-									listaNotificacaoRequest
-										.stream()
-										.forEach( notificacaoRequest ->{
-											
-											NotificacaoModel notificacaoModel = modelMapper.map(notificacaoRequest, NotificacaoModel.class);
-											_listaNotificacaoModel.add(notificacaoModel);
-										});	
-									
-									doc.setNotificacoes(_listaNotificacaoModel);
-								}
-								
-								_listaDocumento.add(doc);
-							});
-						
-						_tipoDocumentacao.setDocumentos(_listaDocumento);
+					if(projetoRequest.getClienteSharing() != null) {	
+						ProjetoClienteSharingModel  _clienteSharingProjetoModel = modelMapper.map(projetoRequest.getClienteSharing(), ProjetoClienteSharingModel.class);
+						_projetoModel.setClienteSharing(_clienteSharingProjetoModel);
 					}
 						
-					_projetoModel.setProjetoTipoDocumentacao(_tipoDocumentacao);
-									
+					ProjetoTipoDocumentacaoModel _projetoTipoDocumentacaoModel = modelMapper.map(tipoDocumentacaoRequest, ProjetoTipoDocumentacaoModel.class);
+					_projetoTipoDocumentacaoModel.setDataCadastro( _projetoModel.getProjetoTipoDocumentacao().getDataCadastro() );
+				
+					if( _projetoModel.getProjetoTipoDocumentacao().getDocumentos() != null ) {
+						_projetoTipoDocumentacaoModel.setDocumentos(_projetoModel.getProjetoTipoDocumentacao().getDocumentos());
+					}					
+					
+					_projetoModel.setProjetoTipoDocumentacao(_projetoTipoDocumentacaoModel);
+					
 					projetoRepository.save(_projetoModel);
-					primeiraExecucao = false;
 				}
 				
 				return new Response(); 

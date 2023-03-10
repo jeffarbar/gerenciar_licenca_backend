@@ -415,14 +415,13 @@ public class ReportService {
 			if( listProjetoModel == null || listProjetoModel.isEmpty() ) {
 				return response;
 			}
-			
-			
+				
 			HashMap<String, DocumentoPorMesDto> docMes = new HashMap<>();	
 			HashMap<String, Integer> projetoLocal = new HashMap<>();
 			HashMap<String, Integer> projetoCliente = new HashMap<>();
 			
 			
-			listProjetoModel.parallelStream()
+			listProjetoModel.stream()
 			.forEach( p ->{
 				if( p.getProjetoTipoDocumentacao() != null && p.getProjetoTipoDocumentacao().getDocumentos() != null ) {
 					
@@ -442,19 +441,10 @@ public class ReportService {
 						}else {
 							projetoCliente.put( nomeEmpresa , 1);
 						}
-					}
-					
-					//System.out.println("QUANTI " + p.getProjetoTipoDocumentacao().getDocumentos().size());
-					
-					p.getProjetoTipoDocumentacao().getDocumentos().parallelStream()
+					}	
+
+					p.getProjetoTipoDocumentacao().getDocumentos().stream()
 					.forEach( d ->{
-						
-						/*
-						System.out.println("status "+ d.getStatusArquito());
-						System.out.println("dataaprovado "+ d.getDataAprovacao());
-						System.out.println("dataanalise "+ d.getDataUpload());
-						System.out.println("datapendente "+ d.getDataCadastro());
-						*/
 						
 						if( SituacaoArquivoEnum.APROVADO.name().equals( d.getStatusArquito())) {
 							
@@ -483,8 +473,6 @@ public class ReportService {
 							}
 							
 						}else if( SituacaoArquivoEnum.PENDENTE.name().equals( d.getStatusArquito())) {
-							
-							System.out.println( d.getDataCadastro() );
 							
 							String mes = dataUtil.recuperaMesAno(d.getDataCadastro());
 							if( docMes.containsKey(mes) ) {

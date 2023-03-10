@@ -1,5 +1,6 @@
 package br.com.telefonica.gd.response;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import br.com.telefonica.gd.model.NotificacaoModel;
@@ -15,6 +16,8 @@ public class ProjetoDocumentoResponse {
 	private String id;
 	
 	private String nome;
+	
+	private String dataCadastro;
 	 
 	private String idArquivoOriginal;
 	
@@ -162,8 +165,13 @@ public class ProjetoDocumentoResponse {
 	public void setStatusArquito(String statusArquito) {
 		this.statusArquito = statusArquito;
 	}
-	
-	
-	
+
+	public String getDataCadastro() {
+		return dataCadastro;
+	}
+
+	public void setDataCadastro(String dataCadastro) {
+		this.dataCadastro = dataCadastro;
+	}
 	
 }

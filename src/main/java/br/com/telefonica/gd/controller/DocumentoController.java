@@ -1,6 +1,7 @@
 package br.com.telefonica.gd.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import br.com.telefonica.gd.dto.DocumentoDto;
 import br.com.telefonica.gd.request.ClienteRequest;
+import br.com.telefonica.gd.request.DocumentoRequest;
 import br.com.telefonica.gd.request.NotificacaoRequest;
 import br.com.telefonica.gd.response.Response;
 import br.com.telefonica.gd.service.DocumentoService;
@@ -34,6 +36,22 @@ public class DocumentoController extends Controller {
 	
 	@Autowired
 	private HttpServletRequest request;
+	
+	
+	@RequestMapping( path = "/incluirDoc/{idProjeto}",
+			method = RequestMethod.PUT)
+	@PreAuthorize("hasAnyRole('MASTER','SHARING')")
+    public  ResponseEntity<Response> incluirDoc(
+    		@PathVariable String idProjeto , @RequestBody List<DocumentoRequest> documentos ) throws IOException {
+		
+		try {
+			return new ResponseEntity<>(documentoService.incluirDoc(idProjeto, documentos), HttpStatus.OK);
+		}catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+    }
+
 	
 	@RequestMapping( path = "/upload",
 			method = RequestMethod.POST)
