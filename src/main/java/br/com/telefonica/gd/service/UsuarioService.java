@@ -62,17 +62,17 @@ public class UsuarioService {
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
     
-    private void setaClienteMasterSistemico(UsuarioModel usuarioModel) throws Exception{
+    private void setaClienteMasterSistemico(UsuarioModel usuarioModel, boolean isPerfilAdministrador) throws Exception{
     	
-    	if(usuarioModel.getPerfil().equals(RoleEnum.ROLE_MASTER.getNome())){
+    	if( isPerfilAdministrador || usuarioModel.getPerfil().equals(RoleEnum.ROLE_MASTER.getNome())){
 		
     		Optional<ClienteModel> clienteMasterModel = clienteRepository.findByMasterTrue();
     		
     		if( clienteMasterModel.isPresent() ) {
     			usuarioModel.setCliente( clienteMasterModel.get() );
+    		}else {
+    			throw new Exception("Não foi localizado o cliente master da aplicação");		
     		}
-    		throw new Exception("Não foi localizado o cliente master da aplicação");		
-    		
 		}
     }
     
@@ -86,7 +86,7 @@ public class UsuarioService {
 			usuarioModel.setDataCadastro(dataUtil.dataAtual());
 			usuarioModel.setPrimeiroAcesso(true);
 
-			setaClienteMasterSistemico(usuarioModel);
+			setaClienteMasterSistemico(usuarioModel, usuarioRequest.isPerfilAdministrador());
 			
 			usuarioRepository.save(usuarioModel);
 			
@@ -134,7 +134,7 @@ public class UsuarioService {
 				
 				_usuarioModel.setPrimeiroAcesso(usuarioRequest.isPrimeiroAcesso());  
 				
-				setaClienteMasterSistemico(_usuarioModel);
+				setaClienteMasterSistemico(_usuarioModel, usuarioRequest.isPerfilAdministrador());
 				
 				usuarioRepository.save(_usuarioModel);
 				return new Response();
@@ -215,10 +215,11 @@ public class UsuarioService {
 			
 			
 			
-			if(RoleEnum.ROLE_MASTER.getNome().equals( jwtUsuarioDto.getPerfil() )) {
+			if(RoleEnum.ROLE_MASTER.getNome().equals( jwtUsuarioDto.getPerfil() ) ||
+					RoleEnum.ROLE_ADMIN.getNome().equals( jwtUsuarioDto.getPerfil() )) {
 			
 				List<String> perfis = new ArrayList<String>(Arrays.asList (new String[]{
-						RoleEnum.ROLE_MASTER.name(), RoleEnum.ROLE_BASIC.name(), RoleEnum.ROLE_SHARING.name()}));
+						RoleEnum.ROLE_MASTER.name(), RoleEnum.ROLE_BASIC.name()}));
 				
 				list = usuarioRepository.findByPerfilIn(perfis).parallelStream()
 						.map( this::convert )

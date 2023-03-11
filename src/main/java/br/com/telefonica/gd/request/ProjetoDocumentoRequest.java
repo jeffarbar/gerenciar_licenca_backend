@@ -39,6 +39,8 @@ public class ProjetoDocumentoRequest{
 	
 	private String statusArquito;
 	
+	private boolean isIncluirSharing;
+	
 	private List<String> historico;
 	
 	private List<String> idArquivos;
@@ -166,5 +168,14 @@ public class ProjetoDocumentoRequest{
 	public void setNotificacoes(List<NotificacaoRequest> notificacoes) {
 		this.notificacoes = notificacoes;
 	}
+
+	public boolean isIncluirSharing() {
+		return isIncluirSharing;
+	}
+
+	public void setIncluirSharing(boolean isIncluirSharing) {
+		this.isIncluirSharing = isIncluirSharing;
+	}
+	
 	
 }

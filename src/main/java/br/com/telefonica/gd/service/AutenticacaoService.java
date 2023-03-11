@@ -79,13 +79,22 @@ public class AutenticacaoService implements UserDetailsService{
 			UsuarioModel usuarioModel = usuarioRepository.findByEmail(authenticationRequest.getEmail()).get();
 			
 			boolean isMaster = userDetails.getAuthorities().stream()
-					.filter( item -> RoleEnum.ROLE_MASTER.name().equals( item.getAuthority() ) )
+					.filter( item -> RoleEnum.ROLE_MASTER.name().equals( item.getAuthority() ) ||
+							RoleEnum.ROLE_ADMIN.name().equals( item.getAuthority() ))
 					.findFirst().isPresent();
+			
+			String idCliente = null;
+			String razaoSocial = null;
+			
+			if( usuarioModel.getCliente() != null ) {
+				idCliente = usuarioModel.getCliente().getId();
+				razaoSocial = usuarioModel.getCliente().getRazaoSocial();
+			}
 			
 			final String token = jwtTokenUtil.generateToken(
 					usuarioModel.getNome(), 
 					usuarioModel.getEmail(), 
-					usuarioModel.getCliente().getId(), 
+					idCliente, 
 					RoleEnum.fromEnum(usuarioModel.getPerfil()).getNome());
 			
 			
@@ -96,8 +105,8 @@ public class AutenticacaoService implements UserDetailsService{
 			
 			jwtResponse.setUsername( usuarioModel.getNome() );
 			jwtResponse.setPrimeiroAcesso(usuarioModel.isPrimeiroAcesso());
-			jwtResponse.setCliente(usuarioModel.getCliente().getRazaoSocial());
-			jwtResponse.setIdCliente(usuarioModel.getCliente().getId());
+			jwtResponse.setCliente( razaoSocial );
+			jwtResponse.setIdCliente( idCliente );
 			jwtResponse.setPerfil( RoleEnum.fromEnum(usuarioModel.getPerfil()).getNome() );
 			
 			jwtResponse.setMaster(isMaster);

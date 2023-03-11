@@ -139,7 +139,8 @@ public class ClienteService {
 			
 			List<ClienteResponse> list = null;
 			
-			if(RoleEnum.ROLE_MASTER.getNome().equals( jwtUsuarioDto.getPerfil() )) {
+			if(RoleEnum.ROLE_MASTER.getNome().equals( jwtUsuarioDto.getPerfil() ) ||
+					RoleEnum.ROLE_ADMIN.getNome().equals( jwtUsuarioDto.getPerfil() )) {
 			
 				list = clienteRepository.findBySharingTrue().parallelStream()
 					.filter( c -> !c.isMaster() )
@@ -172,7 +173,8 @@ public class ClienteService {
 			
 			List<ClienteResponse> list =  null;
 			
-			if(RoleEnum.ROLE_MASTER.getNome().equals( jwtUsuarioDto.getPerfil() )) {
+			if(RoleEnum.ROLE_MASTER.getNome().equals( jwtUsuarioDto.getPerfil() ) ||
+					RoleEnum.ROLE_ADMIN.getNome().equals( jwtUsuarioDto.getPerfil() )) {
 				
 				list = clienteRepository.findBySharingFalse().parallelStream()
 						.filter( c -> !c.isMaster() )
@@ -203,7 +205,8 @@ public class ClienteService {
 			JwtUsuarioDto jwtUsuarioDto = jwtTokenUtil.getJwtUsuarioFromToken(jwtTokenUtil.recuperaToken(requestToken));
 			
 			List<ProjetoClienteResponse> list  = null;
-			if(RoleEnum.ROLE_MASTER.getNome().equals( jwtUsuarioDto.getPerfil() )) {
+			if(RoleEnum.ROLE_MASTER.getNome().equals( jwtUsuarioDto.getPerfil() ) ||
+					RoleEnum.ROLE_ADMIN.getNome().equals( jwtUsuarioDto.getPerfil() )) {
 				
 				list = clienteRepository.findBySharingFalse().parallelStream()
 						.filter( c -> !c.isMaster() )

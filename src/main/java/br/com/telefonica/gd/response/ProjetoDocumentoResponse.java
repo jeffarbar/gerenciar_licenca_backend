@@ -35,6 +35,8 @@ public class ProjetoDocumentoResponse {
 	
 	private String statusArquito;
 	
+	private boolean isIncluirSharing;
+	
 	private List<String> historico;
 	
 	private List<NotificacaoModel> notificacoes;
@@ -172,6 +174,14 @@ public class ProjetoDocumentoResponse {
 
 	public void setDataCadastro(String dataCadastro) {
 		this.dataCadastro = dataCadastro;
+	}
+
+	public boolean isIncluirSharing() {
+		return isIncluirSharing;
+	}
+
+	public void setIncluirSharing(boolean isIncluirSharing) {
+		this.isIncluirSharing = isIncluirSharing;
 	}
 	
 }

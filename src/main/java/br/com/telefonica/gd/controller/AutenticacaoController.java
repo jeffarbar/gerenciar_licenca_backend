@@ -1,6 +1,7 @@
 package br.com.telefonica.gd.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -26,9 +27,14 @@ public class AutenticacaoController extends Controller {
 
 
 	@RequestMapping(value = "/autenticar", method = RequestMethod.POST)
-	public ResponseEntity<?> criaToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
-
-		return ResponseEntity.ok(autenticacaoService.autenticar(authenticationRequest));
+	public ResponseEntity<?> criaToken(@RequestBody JwtRequest authenticationRequest){
+		
+		try {
+			return ResponseEntity.ok(autenticacaoService.autenticar(authenticationRequest));
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 }

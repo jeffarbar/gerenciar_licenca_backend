@@ -27,7 +27,7 @@ public class TipoDocumentacaoController extends Controller {
 			method = RequestMethod.POST, 
 			produces = {MediaType.APPLICATION_JSON_VALUE} , 
 			consumes = {MediaType.APPLICATION_JSON_VALUE})
-	@PreAuthorize("hasAnyRole('MASTER')")
+	@PreAuthorize("hasAnyRole('MASTER','ADMIN')")
 	public ResponseEntity<Response> save(@RequestBody TipoDocumentacaoRequest tipoDocumentacaoRequest) {
 		
 		try {
@@ -42,7 +42,7 @@ public class TipoDocumentacaoController extends Controller {
 	@RequestMapping(path = "/{id}", 
 			method = RequestMethod.DELETE, 
 			produces = {MediaType.APPLICATION_JSON_VALUE})
-	@PreAuthorize("hasAnyRole('MASTER')")
+	@PreAuthorize("hasAnyRole('MASTER','ADMIN')")
 	public ResponseEntity<Response> delete(@PathVariable String id) {
 		
 		try {
@@ -57,7 +57,7 @@ public class TipoDocumentacaoController extends Controller {
 			method = RequestMethod.PUT, 
 			produces = {MediaType.APPLICATION_JSON_VALUE} , 
 			consumes = {MediaType.APPLICATION_JSON_VALUE})
-	@PreAuthorize("hasAnyRole('MASTER')")
+	@PreAuthorize("hasAnyRole('MASTER','ADMIN')")
 	public ResponseEntity<Response> update(@PathVariable String id, @RequestBody TipoDocumentacaoRequest tipoDocumentacaoRequest) {
 		
 		try {
@@ -73,7 +73,7 @@ public class TipoDocumentacaoController extends Controller {
 	@RequestMapping(path = "/", 
 			method = RequestMethod.GET, 
 			produces = {MediaType.APPLICATION_JSON_VALUE})
-	@PreAuthorize("hasAnyRole('MASTER')")
+	@PreAuthorize("hasAnyRole('MASTER','ADMIN')")
 	public ResponseEntity<Response> list() {
 		
 		try {
@@ -87,7 +87,7 @@ public class TipoDocumentacaoController extends Controller {
 	@RequestMapping(path = "/projetoTipoDocumentacao", 
 			method = RequestMethod.GET, 
 			produces = {MediaType.APPLICATION_JSON_VALUE})
-	@PreAuthorize("hasAnyRole('MASTER')")
+	@PreAuthorize("hasAnyRole('MASTER','ADMIN')")
 	public ResponseEntity<Response> listProjetoTipoLicenciamento() {
 		
 		try {
@@ -100,7 +100,7 @@ public class TipoDocumentacaoController extends Controller {
 	@RequestMapping(path = "/{id}", 
 			method = RequestMethod.GET, 
 			produces = {MediaType.APPLICATION_JSON_VALUE})
-	@PreAuthorize("hasAnyRole('MASTER')")
+	@PreAuthorize("hasAnyRole('MASTER','ADMIN')")
 	public ResponseEntity<Response> get(@PathVariable String id) {
 		
 		try {

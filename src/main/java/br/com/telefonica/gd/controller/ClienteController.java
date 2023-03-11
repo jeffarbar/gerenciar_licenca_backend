@@ -33,7 +33,7 @@ public class ClienteController extends Controller {
 			method = RequestMethod.POST, 
 			produces = {MediaType.APPLICATION_JSON_VALUE} , 
 			consumes = {MediaType.APPLICATION_JSON_VALUE})
-	@PreAuthorize("hasAnyRole('MASTER')")
+	@PreAuthorize("hasAnyRole('MASTER','ADMIN')")
 	public ResponseEntity<Response> save(@RequestBody ClienteRequest clienteRequest) {
 		
 		try {
@@ -47,7 +47,7 @@ public class ClienteController extends Controller {
 	@RequestMapping(path = "/{id}", 
 			method = RequestMethod.DELETE, 
 			produces = {MediaType.APPLICATION_JSON_VALUE})
-	@PreAuthorize("hasAnyRole('MASTER')")
+	@PreAuthorize("hasAnyRole('MASTER','ADMIN')")
 	public ResponseEntity<Response> delete(@PathVariable String id) {
 		
 		try {
@@ -62,7 +62,7 @@ public class ClienteController extends Controller {
 			method = RequestMethod.PUT, 
 			produces = {MediaType.APPLICATION_JSON_VALUE},
 			consumes = {MediaType.APPLICATION_JSON_VALUE})
-	@PreAuthorize("hasAnyRole('MASTER')")
+	@PreAuthorize("hasAnyRole('MASTER','ADMIN')")
 	public ResponseEntity<Response> update(@PathVariable String id, @RequestBody ClienteRequest clienteRequest) {
 		
 		try {
@@ -77,7 +77,7 @@ public class ClienteController extends Controller {
 	@RequestMapping(path = "/", 
 			method = RequestMethod.GET, 
 			produces = {MediaType.APPLICATION_JSON_VALUE})
-	@PreAuthorize("hasAnyRole('BASIC','MASTER','SHARING')")
+	@PreAuthorize("hasAnyRole('BASIC','MASTER','SHARING','ADMIN')")
 	public ResponseEntity<Response> list() {
 		
 		try {
@@ -91,7 +91,7 @@ public class ClienteController extends Controller {
 	@RequestMapping(path = "/listSharing", 
 			method = RequestMethod.GET, 
 			produces = {MediaType.APPLICATION_JSON_VALUE})
-	@PreAuthorize("hasAnyRole('MASTER','SHARING')")
+	@PreAuthorize("hasAnyRole('MASTER','SHARING','ADMIN')")
 	public ResponseEntity<Response> listSharing() {
 		
 		try {
@@ -105,7 +105,7 @@ public class ClienteController extends Controller {
 	@RequestMapping(path = "/projetoCliente", 
 			method = RequestMethod.GET, 
 			produces = {MediaType.APPLICATION_JSON_VALUE})
-	@PreAuthorize("hasAnyRole('BASIC','MASTER','SHARING')")
+	@PreAuthorize("hasAnyRole('BASIC','MASTER','SHARING','ADMIN')")
 	public ResponseEntity<Response> listProjetoCliente() {
 		
 		try {
@@ -121,7 +121,7 @@ public class ClienteController extends Controller {
 	@RequestMapping(path = "/{id}", 
 			method = RequestMethod.GET, 
 			produces = {MediaType.APPLICATION_JSON_VALUE} )
-	@PreAuthorize("hasAnyRole('BASIC','MASTER')")
+	@PreAuthorize("hasAnyRole('BASIC','MASTER','ADMIN')")
 	public  ResponseEntity<Response> get(@PathVariable String id) {
 		
 		try {

@@ -45,7 +45,8 @@ public class PainelService {
 				
 			List<ProjetoResponse> listaProjetoResponse = null;
 				
-			if(RoleEnum.ROLE_MASTER.getNome().equals( jwtUsuarioDto.getPerfil() )) {
+			if(RoleEnum.ROLE_MASTER.getNome().equals( jwtUsuarioDto.getPerfil() ) ||
+					RoleEnum.ROLE_ADMIN.getNome().equals( jwtUsuarioDto.getPerfil() )) {
 				listaProjetoResponse = ((ListaProjetoResponse) projetoService.list()).getLista();
 			}else {
 				listaProjetoResponse = ((ListaProjetoResponse) projetoService.listSharing( jwtUsuarioDto.getIdCliente() )).getLista();
@@ -87,7 +88,8 @@ public class PainelService {
 			
 			List<ProjetoResponse> listaProjetoResponse = null;
 			
-			if(RoleEnum.ROLE_MASTER.getNome().equals( jwtUsuarioDto.getPerfil() )) {
+			if(RoleEnum.ROLE_MASTER.getNome().equals( jwtUsuarioDto.getPerfil() ) ||
+					RoleEnum.ROLE_ADMIN.getNome().equals( jwtUsuarioDto.getPerfil() )) {
 				listaProjetoResponse = ((ListaProjetoResponse) projetoService.list(idCliente)).getLista();
 			}else if(RoleEnum.ROLE_SHARING.getNome().equals( jwtUsuarioDto.getPerfil() )) {
 				listaProjetoResponse = ((ListaProjetoResponse) projetoService.listSharing(jwtUsuarioDto.getIdCliente())).getLista();

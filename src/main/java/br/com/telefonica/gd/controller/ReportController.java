@@ -33,7 +33,7 @@ public class ReportController extends Controller {
 			method = RequestMethod.POST, 
 			produces = {MediaType.APPLICATION_JSON_VALUE} , 
 			consumes = {MediaType.APPLICATION_JSON_VALUE})
-	@PreAuthorize("hasAnyRole('MASTER')")
+	@PreAuthorize("hasAnyRole('MASTER','ADMIN')")
 	public ResponseEntity<Response> list(@RequestBody ReportRequest reportRequest) {
 		
 		try {
@@ -47,7 +47,7 @@ public class ReportController extends Controller {
 	@RequestMapping(path = "/export", 
 			method = RequestMethod.POST, 
 			consumes = {MediaType.APPLICATION_JSON_VALUE})
-	@PreAuthorize("hasAnyRole('MASTER')")
+	@PreAuthorize("hasAnyRole('MASTER','ADMIN')")
 	public ResponseEntity<Resource> export(@RequestBody ReportRequest reportRequest) {
 		
 		try {

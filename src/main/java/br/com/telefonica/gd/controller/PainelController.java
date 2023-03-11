@@ -29,7 +29,7 @@ public class PainelController extends Controller {
 	@RequestMapping(path = "/{idCliente}", 
 			method = RequestMethod.GET, 
 			produces = {MediaType.APPLICATION_JSON_VALUE})
-	@PreAuthorize("hasAnyRole('MASTER','BASIC','SHARING')")
+	@PreAuthorize("hasAnyRole('MASTER','BASIC','SHARING','ADMIN')")
 	public ResponseEntity<Response> list(@PathVariable("idCliente") String idCliente) {
 		
 		try {
@@ -45,7 +45,7 @@ public class PainelController extends Controller {
 	@RequestMapping(path = "/agrupado", 
 			method = RequestMethod.GET, 
 			produces = {MediaType.APPLICATION_JSON_VALUE})
-	@PreAuthorize("hasAnyRole('MASTER','SHARING')")
+	@PreAuthorize("hasAnyRole('MASTER','SHARING','ADMIN')")
 	public ResponseEntity<Response> listAgrupado() {
 		
 		try {

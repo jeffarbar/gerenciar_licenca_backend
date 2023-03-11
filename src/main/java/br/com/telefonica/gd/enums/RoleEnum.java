@@ -2,6 +2,7 @@ package br.com.telefonica.gd.enums;
 
 public enum RoleEnum {
 
+	ROLE_ADMIN("ADMIN"),
 	ROLE_MASTER("MASTER"),
 	ROLE_SHARING("SHARING"),
 	ROLE_BASIC("BASIC");

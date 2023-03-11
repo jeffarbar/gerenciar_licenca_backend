@@ -35,7 +35,7 @@ public class ProjetoController extends Controller{
 			method = RequestMethod.POST, 
 			produces = {MediaType.APPLICATION_JSON_VALUE} , 
 			consumes = {MediaType.APPLICATION_JSON_VALUE})
-	@PreAuthorize("hasAnyRole('MASTER')")
+	@PreAuthorize("hasAnyRole('MASTER','ADMIN')")
 	public ResponseEntity<Response> save(@RequestBody ProjetoRequest projetoRequest) {
 		
 		try {
@@ -49,7 +49,7 @@ public class ProjetoController extends Controller{
 	@RequestMapping(path = "/{id}", 
 			method = RequestMethod.DELETE, 
 			produces = {MediaType.APPLICATION_JSON_VALUE})
-	@PreAuthorize("hasAnyRole('MASTER')")
+	@PreAuthorize("hasAnyRole('MASTER','ADMIN')")
 	public ResponseEntity<Response> delete(@PathVariable String id) {
 		
 		try {
@@ -64,7 +64,7 @@ public class ProjetoController extends Controller{
 			method = RequestMethod.PUT, 
 			produces = {MediaType.APPLICATION_JSON_VALUE} , 
 			consumes = {MediaType.APPLICATION_JSON_VALUE})
-	@PreAuthorize("hasAnyRole('MASTER')")
+	@PreAuthorize("hasAnyRole('MASTER','ADMIN')")
 	public  ResponseEntity<Response> update(@PathVariable String id, @RequestBody ProjetoRequest projetoRequest) {
 		
 		try {
@@ -79,7 +79,7 @@ public class ProjetoController extends Controller{
 	@RequestMapping(path = "/", 
 			method = RequestMethod.GET, 
 			produces = {MediaType.APPLICATION_JSON_VALUE})
-	@PreAuthorize("hasAnyRole('MASTER')")
+	@PreAuthorize("hasAnyRole('MASTER','ADMIN')")
 	public ResponseEntity<Response> list() {
 		
 		try {
@@ -93,7 +93,7 @@ public class ProjetoController extends Controller{
 	@RequestMapping(path = "/finalizado", 
 			method = RequestMethod.GET, 
 			produces = {MediaType.APPLICATION_JSON_VALUE})
-	@PreAuthorize("hasAnyRole('MASTER')")
+	@PreAuthorize("hasAnyRole('MASTER','ADMIN')")
 	public ResponseEntity<Response> listFinalizado() {
 		
 		try {
@@ -107,7 +107,7 @@ public class ProjetoController extends Controller{
 	@RequestMapping(path = "/{id}", 
 			method = RequestMethod.GET, 
 			produces = {MediaType.APPLICATION_JSON_VALUE} )
-	@PreAuthorize("hasAnyRole('MASTER','BASIC','SHARING')")
+	@PreAuthorize("hasAnyRole('MASTER','BASIC','SHARING','ADMIN')")
 	public ResponseEntity<Response> get(@PathVariable String id) {
 		
 		try {

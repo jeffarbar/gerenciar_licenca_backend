@@ -93,11 +93,11 @@ public class CargaInicialService {
 		}
 			
 		usuarioPrincial.setCliente(clienteModel);
-		usuarioPrincial.setNome("Usuário Master");
+		usuarioPrincial.setNome("Usuário Admin");
 		usuarioPrincial.setSenha( autenticacaoService.criptografar( autenticacaoService.gerarSenha() ) );
 		usuarioPrincial.setPrimeiroAcesso(true);
 		usuarioPrincial.setTelefone(telefoneUsuarioPrincipal);
-		usuarioPrincial.setPerfil( RoleEnum.ROLE_MASTER.name() );
+		usuarioPrincial.setPerfil( RoleEnum.ROLE_ADMIN.name() );
 			
 		usuarioRepository.save(usuarioPrincial);
 	}

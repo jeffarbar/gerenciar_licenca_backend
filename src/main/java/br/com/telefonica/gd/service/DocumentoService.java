@@ -74,13 +74,15 @@ public class DocumentoService {
 	private static int COMPACTACAO_IMAGEM = 10;
     
 	
-	public Response incluirDoc( String idProjeto, List<DocumentoRequest> documentos ) throws Exception {
+	public Response incluirDoc( String idProjeto, List<DocumentoRequest> documentos, String requestToken ) throws Exception {
 		
 		try {
 			
 			Optional<ProjetoModel> projetoModel = projetoRepository.findById(idProjeto);
     		
     		if( projetoModel.isPresent() ) {
+    			
+    			JwtUsuarioDto jwtUsuarioDto = jwtTokenUtil.getJwtUsuarioFromToken(jwtTokenUtil.recuperaToken(requestToken));
     			
     			ProjetoModel _projetoModel = projetoModel.get();
     			
@@ -90,6 +92,8 @@ public class DocumentoService {
 				
 				List<ProjetoDocumentoModel> listDoc = new ArrayList<>();
 				
+				boolean isPerfilSharing = RoleEnum.ROLE_SHARING.getNome().equals( jwtUsuarioDto.getPerfil());
+				
 				documentos.stream().forEach( d->{
 					
 					ProjetoDocumentoModel doc = new ProjetoDocumentoModel();
@@ -98,6 +102,7 @@ public class DocumentoService {
 					doc.setNome(d.getNome());
 					doc.setDataCadastro(data);
 					doc.setStatusArquito( SituacaoArquivoEnum.PENDENTE.name() );
+					doc.setIncluirSharing(isPerfilSharing);
 					
 					listDoc.add( doc );
 					
@@ -138,7 +143,9 @@ public class DocumentoService {
     			ProjetoTipoDocumentacaoModel _projetoTipoDocumentacao = _projetoModel.getProjetoTipoDocumentacao();
     			
     			
-    			boolean isMaster = RoleEnum.ROLE_SHARING.getNome().equals( jwtUsuarioDto.getPerfil());
+    			boolean isMaster = RoleEnum.ROLE_SHARING.getNome().equals( jwtUsuarioDto.getPerfil()) || 
+    					RoleEnum.ROLE_MASTER.getNome().equals( jwtUsuarioDto.getPerfil()) ||
+    					RoleEnum.ROLE_ADMIN.getNome().equals( jwtUsuarioDto.getPerfil());
     			
     			List<ProjetoDocumentoModel> _docs = _projetoTipoDocumentacao.getDocumentos()
 		        		.stream()

@@ -21,6 +21,8 @@ public class ProjetoDocumentoModel {
 	@Indexed
 	private String nome;
 	
+	private boolean isIncluirSharing;
+	
 	private LocalDateTime dataCadastro;
 	
 	private String idArquivoOriginal;
@@ -176,6 +178,14 @@ public class ProjetoDocumentoModel {
 
 	public void setDataCadastro(LocalDateTime dataCadastro) {
 		this.dataCadastro = dataCadastro;
+	}
+
+	public boolean isIncluirSharing() {
+		return isIncluirSharing;
+	}
+
+	public void setIncluirSharing(boolean isIncluirSharing) {
+		this.isIncluirSharing = isIncluirSharing;
 	}
 	
 }

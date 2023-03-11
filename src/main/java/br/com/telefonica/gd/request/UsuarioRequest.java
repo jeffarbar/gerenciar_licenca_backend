@@ -26,7 +26,7 @@ public class UsuarioRequest {
 	
 	private String senha;
 	
-	private String _dataCadastro;
+	private String dataCadastro;
 	
 	private boolean isPrimeiroAcesso;
 	
@@ -80,12 +80,12 @@ public class UsuarioRequest {
 		this.senha = senha;
 	}
 
-	public String _getDataCadastro() {
-		return _dataCadastro;
+	public String getDataCadastro() {
+		return dataCadastro;
 	}
 
-	public void _setDataCadastro(String dataCadastro) {
-		this._dataCadastro = dataCadastro;
+	public void setDataCadastro(String dataCadastro) {
+		this.dataCadastro = dataCadastro;
 	}
 
 	public boolean isPrimeiroAcesso() {

@@ -40,12 +40,13 @@ public class DocumentoController extends Controller {
 	
 	@RequestMapping( path = "/incluirDoc/{idProjeto}",
 			method = RequestMethod.PUT)
-	@PreAuthorize("hasAnyRole('MASTER','SHARING')")
+	@PreAuthorize("hasAnyRole('MASTER','SHARING','ADMIN')")
     public  ResponseEntity<Response> incluirDoc(
     		@PathVariable String idProjeto , @RequestBody List<DocumentoRequest> documentos ) throws IOException {
 		
 		try {
-			return new ResponseEntity<>(documentoService.incluirDoc(idProjeto, documentos), HttpStatus.OK);
+			final String requestTokenHeader = request.getHeader("Authorization");
+			return new ResponseEntity<>(documentoService.incluirDoc(idProjeto, documentos, requestTokenHeader), HttpStatus.OK);
 		}catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -55,7 +56,7 @@ public class DocumentoController extends Controller {
 	
 	@RequestMapping( path = "/upload",
 			method = RequestMethod.POST)
-	@PreAuthorize("hasAnyRole('BASIC','MASTER','SHARING')")
+	@PreAuthorize("hasAnyRole('BASIC','MASTER','SHARING','ADMIN')")
     public  ResponseEntity<Response> upload(
 	    		@RequestParam String idProjeto, 
 	    		@RequestParam String idDocumento, 
