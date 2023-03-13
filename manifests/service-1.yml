@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+    name: "aksgdvivo-5c5e"
+    labels:
+        app: "aksgdvivo-5c5e"
+spec:
+    type: LoadBalancer
+    ports:
+    - port: 8090
+      targetPort: 8090
+      protocol: TCP
+      name: http
+    selector:
+        app: "aksgdvivo-5c5e"
