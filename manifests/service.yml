@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: gs-backend
 spec:
-  loadBalancerIP: 20.127.118.141
+  loadBalancerIP: 74.235.22.170
   type: LoadBalancer
   ports:
   - port: 8090
